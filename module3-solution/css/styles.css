@@ -1,0 +1,21 @@
+
+
+#content {
+	background: #F1C8DB;
+	padding: 0px 10px 10px 10px;
+	margin: 15px;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #FFFFFF;
+}
+
+#chicken:hover, #beef:hover, #sushi:hover {
+	background: #704C5E;
+	color: #FFFFFF;
+}
+
+#menu>ul {
+	background: #88A09E;
+	color: #FFFFFF;
+}
