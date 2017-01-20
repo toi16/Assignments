@@ -16,13 +16,12 @@ function LunchCheckController($scope) {
  function checkItems(string) {
    var numberOfItems = 0;
    var messageIs = "";
-   if (string === ""){
+   if (string === "") {
      messageIs = "Please enter data first"
    }
    else {
    var arrayOfItems = string.split(','); //Remove commas and create array of items
    var numberOfItems = arrayOfItems.length;
-   console.log(arrayOfItems);
    if (numberOfItems <= 3) {
      messageIs = "Enjoy!";
    }
@@ -30,10 +29,9 @@ function LunchCheckController($scope) {
     messageIs = "Too Much!";
    }
 
- }
+    }
   return messageIs;
  };
-
 
 }
 
