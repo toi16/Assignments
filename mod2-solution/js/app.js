@@ -1,38 +1,66 @@
 (function () {
 'use strict';
 
-angular.module('LunchCheck', [])
-.controller('LunchCheckController', LunchCheckController);
+angular.module('ShoppingListCheckOff', [])
+.controller('ToBuyController', ToBuyController)
+.controller('AlreadyBoughtController', AlreadyBoughtController)
+.service('ShoppingListCheckOffService', ShoppingListCheckOffService);
 
-LunchCheckController.$inject = ['$scope'];
-function LunchCheckController($scope) {
-  $scope.lunchItems = "";
-  $scope.message = "";
-  $scope.checkIfTooMuch = function (){
-    var totalLunchValue = checkItems($scope.lunchItems);
-    $scope.message = totalLunchValue;
- };
+ToBuyController.$inject = ['ShoppingListCheckOffService'];
+function ToBuyController(ShoppingListCheckOffService) {
 
- function checkItems(string) {
-   var numberOfItems = 0;
-   var messageIs = "";
-   if (string === "") {
-     messageIs = "Please enter data first"
-   }
-   else {
-   var arrayOfItems = string.split(','); //Remove commas and create array of items
-   var numberOfItems = arrayOfItems.length;
-   if (numberOfItems <= 3) {
-     messageIs = "Enjoy!";
-   }
-   else if (numberOfItems > 3) {
-    messageIs = "Too Much!";
-   }
+var buyList = this;
 
-    }
-  return messageIs;
- };
+buyList.items = ShoppingListCheckOffService.getToBuyItems();
+
+buyList.removeItem = function (itemIndex) {
+  ShoppingListCheckOffService.removeItem(itemIndex);
+};
 
 }
+
+
+AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
+function AlreadyBoughtController(ShoppingListCheckOffService) {
+
+var boughtList = this;
+
+boughtList.items = ShoppingListCheckOffService.getBoughtItems();
+
+    }
+
+
+
+
+ function ShoppingListCheckOffService() {
+    var service = this;
+
+    // List of shopping items
+    var toBuyItems = [
+      {name:"cookies", quantity:"10"},
+      {name:"biscuits", quantity:"15"},
+      {name:"weetabix", quantity: "1"},
+      {name:"apples", quantity:"7"},
+      {name:"bananas", quantity:"12"},
+      {name:"oranges", quantity:"10"},
+    ];
+
+var boughtItems = [];
+
+service.getToBuyItems = function () {
+  return toBuyItems;
+};
+
+service.getBoughtItems = function () {
+ return boughtItems;
+};
+
+service.removeItem = function (itemIndex) {
+var item = toBuyItems[itemIndex];
+  boughtItems.push(item);
+  toBuyItems.splice(itemIndex, 1);
+};
+
+  }
 
 })();
