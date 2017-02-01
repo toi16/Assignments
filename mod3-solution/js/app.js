@@ -1,66 +1,78 @@
 (function () {
 'use strict';
 
-angular.module('ShoppingListCheckOff', [])
-.controller('ToBuyController', ToBuyController)
-.controller('AlreadyBoughtController', AlreadyBoughtController)
-.service('ShoppingListCheckOffService', ShoppingListCheckOffService);
+angular.module('NarrowItDownApp', [])
+.controller('NarrowItDownController', NarrowItDownController)
+.service('MenuSearchService', MenuSearchService)
+.directive('foundItems', FoundItemsDirective);
 
-ToBuyController.$inject = ['ShoppingListCheckOffService'];
-function ToBuyController(ShoppingListCheckOffService) {
 
-var buyList = this;
+NarrowItDownController.$inject = ['MenuSearchService'];
+function NarrowItDownController(MenuSearchService) {
+var narrow=this;
 
-buyList.items = ShoppingListCheckOffService.getToBuyItems();
+narrow.searchTerm = "";
+narrow.list = [];
+narrow.search = function () {
+  MenuSearchService.getMatchedMenuItems(narrow.searchTerm).then(function(filtered){
+    narrow.list = filtered;
+  });
 
-buyList.removeItem = function (itemIndex) {
-  ShoppingListCheckOffService.removeItem(itemIndex);
+  };
+
+narrow.removeItem = function (itemIndex) {
+  narrow.list.splice(itemIndex, 1);
 };
 
-}
+narrow.emptyList = function () {
+  if (narrow.list.length == 0) {
+    return true;
+  } else {
+    return false;
+  }
 
+};
 
-AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
-function AlreadyBoughtController(ShoppingListCheckOffService) {
+} //End of controller
 
-var boughtList = this;
-
-boughtList.items = ShoppingListCheckOffService.getBoughtItems();
-
+function FoundItemsDirective() {
+  var ddo = {
+  templateUrl: 'displayList.html',
+  scope: {
+    found: '<',
+    onRemove: '&'
     }
 
+  };
+
+  return ddo;
+} // End of directive
 
 
+MenuSearchService.$inject = ['$http'];
+function MenuSearchService($http) {
+var service = this;
 
- function ShoppingListCheckOffService() {
-    var service = this;
+  service.getMatchedMenuItems = function(searchTerm) {
+    return $http({
+    method: "GET",
+    url: "https://davids-restaurant.herokuapp.com/menu_items.json"
+    }).then(function (response){
+        var filteredList = [];
+        var foundItems = response.data.menu_items;
+        for (var i = 0; i < foundItems.length; i++){
+          if (foundItems[i].description.indexOf(searchTerm) > 0){
+            filteredList.push(foundItems[i]);
 
-    // List of shopping items
-    var toBuyItems = [
-      {name:"cookies", quantity:"10"},
-      {name:"biscuits", quantity:"15"},
-      {name:"weetabix", quantity: "1"},
-      {name:"apples", quantity:"7"},
-      {name:"bananas", quantity:"12"},
-      {name:"oranges", quantity:"10"},
-    ];
+          }
+        }
+      return filteredList;
+  });
 
-var boughtItems = [];
-
-service.getToBuyItems = function () {
-  return toBuyItems;
 };
+}  //End of service
 
-service.getBoughtItems = function () {
- return boughtItems;
-};
 
-service.removeItem = function (itemIndex) {
-var item = toBuyItems[itemIndex];
-  boughtItems.push(item);
-  toBuyItems.splice(itemIndex, 1);
-};
 
-  }
 
 })();
