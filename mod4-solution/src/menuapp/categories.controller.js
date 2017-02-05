@@ -9,7 +9,7 @@ CategoriesController.$inject = ['catResult'];
 function CategoriesController(catResult) {
   var catCtrl = this;
   catCtrl.catList = catResult;
-    console.log(catCtrl.catList);
+    
   };
 
 

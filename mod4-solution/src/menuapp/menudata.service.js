@@ -25,8 +25,8 @@ service.getItemsForCategory = function(categoryShortName) {
  method: "GET",
  url: ("https://davids-restaurant.herokuapp.com/menu_items.json?category=" + categoryShortName)
  }).then(function (response){
-       return response.data;
-       console.log(response.data);
+          return response.data;
+
      });
 };
 

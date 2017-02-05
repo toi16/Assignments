@@ -38,13 +38,8 @@ function RoutesConfig($stateProvider, $urlRouterProvider) {
     templateUrl: 'src/menuapp/templates/items.template.html',
     controller: "ItemsController as itemDetail",
     resolve: {
-      itemResult: ['$stateParams', 'MenuDataService', function (MenuDataService) {
-        return MenuDataService.getItemsForCategory().then(function (items)
-          {
-              return items[$stateParams.categoryId];
-
-          }
-      );
+      itemResult: ['$stateParams', 'MenuDataService', function ($stateParams, MenuDataService) {
+        return MenuDataService.getItemsForCategory($stateParams.categoryId);
       }]
     }
   });
