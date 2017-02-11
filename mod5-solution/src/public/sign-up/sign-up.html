@@ -1,0 +1,68 @@
+<div class="container">
+  <h2 id="menu-categories-title" class="text-center">
+    Sign Up
+  </h2>
+  <div class="text-center">
+    <fieldset>
+      <form name='signupForm' novalidate>
+
+        <input class="form-control" type="text" name="firstname" placeholder="Enter your first name"
+          ng-model="signup.firstname"
+          required>
+          <span
+            ng-if="(signupForm.firstname.$error.required) && signupForm.firstname.$touched">
+            First name must be entered
+          </span>
+          <br>
+
+          <input class="form-control" type="text" name="lastname" placeholder="Enter your last name"
+            ng-model="signup.lastname"
+            required>
+            <span
+              ng-if="(signupForm.lastname.$error.required) && signupForm.lastname.$touched">
+              Last name must be entered
+            </span>
+            <br>
+
+        <input class="form-control" type="email" name="email" placeholder="Email"
+          ng-model="signup.email"
+          required>
+          <span ng-if="signupForm.email.$invalid && signupForm.email.$touched">
+            Must be a valid email address: handle@domain format
+          </span>
+          <br>
+
+        <input class="form-control" type="text" name="phone" placeholder="Phone ###-###-####"
+          ng-model="signup.phone"
+          pattern="(\d{3})-(\d{3})-(\d{4})"
+          required>
+          <span ng-if="signupForm.phone.$invalid && signupForm.phone.$touched">
+            Phone must be in the format ###-###-####.
+          </span>
+          <br>
+
+          <input class="form-control" type="text" name="menunumber" placeholder="Menu number"
+            ng-model="signup.menunumber"
+            required>
+            <br>
+            <div class="alert alert-danger" ng-if="!signup.noNumber">
+              <span>
+              No Such Menu number exists.
+               </span>
+                <br>
+             </div>
+        <button class="btn btn-primary"
+          ng-disabled="signupForm.$invalid"
+          ng-click="signup.saveUser();">Submit</button>
+          <br>
+      </form>
+    </fieldset>
+
+<div class="alert alert-success" ng-if="signup.completed">
+  <span>
+    Your information has been saved.
+  </span>
+</div>
+
+</div>
+</div>
