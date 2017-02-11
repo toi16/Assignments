@@ -9,6 +9,8 @@ MenuService.$inject = ['$http', 'ApiPath'];
 function MenuService($http, ApiPath) {
   var service = this;
   var users = [];
+  var hasSignedUp = false;
+  var menuItemFav = "";
 
   service.getCategories = function () {
     return $http.get(ApiPath + '/categories.json').then(function (response) {
@@ -29,30 +31,40 @@ function MenuService($http, ApiPath) {
   };
 
   service.getMenuNumber = function (menunumber) {
-    menunumber = menunumber.toUpperCase();
-    var response = $http.get(ApiPath + '/menu_items/' + menunumber + '.json');
-    return response;
+     menunumber = menunumber.toUpperCase();
+     return $http.get(ApiPath + '/menu_items/' + menunumber + '.json').then(function (response) {
+       return response.data;
+         });
+
+
     };
 
 
     service.saveSignUp = function (firstName, lastName, email, phone, favorite, completed) {
 
-          var hasSignedUp = completed;
+          hasSignedUp = completed;
+          menuItemFav = favorite;
           var user = {
           firstname: firstName,
           lastname: lastName,
           email: email,
-          phone: phone,
-          favorite: favorite
-        };
+          phone: phone
+          };
         users.push(user);
         };
 
   service.getUser = function () {
         return users;
+
       };
 
+  service.getStatus = function () {
+     return hasSignedUp;
+  };
 
+  service.getMenuFav = function () {
+    return menuItemFav;
+  };
 }
 
 

@@ -1,18 +1,30 @@
 <div class="container">
-  <h2 id="menu-categories-title" class="text-center">
-    My Info
-  </h2>
-  <div class="text-center">
-    <div id="info">
-      <ul>
+  <h2 id="menu-categories-title" class="text-center">My Info</h2>
+  <div>
+    <div class="alert alert-warning" ng-if="!myInfo.checkSignUp">
+      <span>
+        Not Signed Up Yet. <a ui-sref="public.signup">Sign Up Now!</a>
+      </span>
+    </div>
+    <div>
+      <ul class="list-group">
        <li ng-repeat="item in myInfo.userInfo">
          First Name: {{item.firstname}} <br>
          Last Name: {{item.lastname}} <br>
          Email: {{item.email}} <br>
          Phone: {{item.phone}} <br>
-         Favorite: {{item.favorite}}
-      </li>
+         Favorite Menu Item:
+       </li>
      </ul>
+
+       <div class="row">
+             <img class="img-responsive" width="250" height="150" ng-src="{{myInfo.basePath}}/images/{{myInfo.menuItemDisplay.short_name}}.jpg" alt="{{myInfo.menuItemDisplay.name}}">
+             <h3>{{myInfo.menuItemDisplay.name}}</h3>
+             <p>{{myInfo.menuItemDisplay.description}}</p>
+       </div>
+
+
+
 
     </div>
   </div>

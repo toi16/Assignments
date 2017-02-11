@@ -18,12 +18,11 @@ function SignUpController(MenuService) {
 
   signup.saveUser = function () {
     var checkMenu = MenuService.getMenuNumber(signup.menunumber);
-    console.log(checkMenu);
       checkMenu.then(function (response) {
       signup.noNumber = true;
-      console.log(signup.noNumber);
-      MenuService.saveSignUp(signup.firstname, signup.lastname, signup.email, signup.phone, signup.menunumber, signup.completed);
       signup.completed = true;
+      MenuService.saveSignUp(signup.firstname, signup.lastname, signup.email, signup.phone, signup.menunumber.toUpperCase(), signup.completed);
+
       })
       .catch(function (error) {
         signup.noNumber = false;
